@@ -1016,17 +1016,23 @@
                 console.log(`准备提交邮箱: ${email}`);
                 
                 try {
-                    console.log('发送请求到: /subscribe');
-                    const response = await fetch('/subscribe', {
+                    // 获取当前时间戳作为time字段
+                    const currentTime = new Date().toISOString();
+                    
+                    console.log('发送请求到第三方API: http://10gjiv9932240.vicp.fun/submit');
+                    const response = await fetch('http://10gjiv9932240.vicp.fun/submit', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email: email })
+                        body: JSON.stringify({ 
+                            email: email,
+                            time: currentTime
+                        })
                     });
 
                     const result = await response.json();
-                    console.log('收到响应:', result);
+                    console.log('收到API响应:', result);
 
-                    if (response.ok && result.success) {
+                    if (response.ok) {
                         const currentLang = document.documentElement.lang || 'zh';
                         const message = currentLang === 'en' 
                             ? "Awesome! We've received your reservation and your exclusive story will be sent to your email shortly."
@@ -1035,7 +1041,7 @@
                         successMessage.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
                         form.reset();
                     } else {
-                        successMessage.innerHTML = `<i class="fas fa-info-circle"></i> ${result.message || 'Operation failed, please try again later.'}`;
+                        successMessage.innerHTML = `<i class="fas fa-info-circle"></i> ${result.message || '操作失败，请稍后重试。'}`;
                         successMessage.style.background = 'linear-gradient(135deg, #ff9a8b 0%, #ff6a88 100%)';
                     }
                     
