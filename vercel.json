@@ -1,15 +1,11 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    }
-  ],
+  "static": {
+    "directory": "."
+  },
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
+    { "src": "/privacy", "dest": "/privacy.html" },
+    { "src": "/test", "dest": "/button_test.html" },
+    { "src": "/((?!.*\\.\\w+).*)", "dest": "/index.html" }
   ]
 } 
