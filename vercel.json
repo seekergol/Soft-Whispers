@@ -3,17 +3,21 @@
   "rewrites": [
     {
       "source": "/api/submit",
-      "destination": "http://10gjiv9932240.vicp.fun/submit"
+      "destination": "https://10gjiv9932240.vicp.fun"
     }
   ],
   "routes": [
     {
       "src": "/privacy",
-      "dest": "privacy.html"
+      "dest": "/privacy.html"
     },
     {
       "src": "/test",
-      "dest": "button_test.html"
+      "dest": "/button_test.html"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
     }
   ]
 } 
