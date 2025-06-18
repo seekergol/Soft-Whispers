@@ -1,5 +1,11 @@
 {
   "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/submit",
+      "destination": "http://10gjiv9932240.vicp.fun/submit"
+    }
+  ],
   "routes": [
     {
       "src": "/privacy",

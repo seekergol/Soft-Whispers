@@ -1019,8 +1019,8 @@
                     // 获取当前时间戳作为time字段
                     const currentTime = new Date().toISOString();
                     
-                    console.log('发送请求到第三方API: https://10gjiv9932240.vicp.fun/submit');
-                    const response = await fetch('https://10gjiv9932240.vicp.fun/submit', {
+                    console.log('发送请求到 /api/submit');
+                    const response = await fetch('/api/submit', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ 
