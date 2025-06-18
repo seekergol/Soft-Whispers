@@ -33,6 +33,12 @@ def serve_landing_page():
     logger.info("请求首页")
     return send_from_directory('.', 'bedtime_story_landing.html')
 
+@app.route('/privacy.html')
+def serve_privacy_page():
+    """提供隐私政策页面"""
+    logger.info("请求隐私政策页面")
+    return send_from_directory('.', 'privacy.html')
+
 @app.route('/subscribe', methods=['POST'])
 def subscribe():
     """处理订阅请求，将邮箱存入数据库。"""

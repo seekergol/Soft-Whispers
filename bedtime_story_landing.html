@@ -552,6 +552,23 @@
             color: #667eea;
         }
 
+        .footer-button {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            color: #ecf0f1 !important;
+            transition: all 0.3s ease;
+        }
+
+        .footer-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff !important;
+            transform: translateY(-2px);
+        }
+
         .social-icons {
             display: flex;
             justify-content: center;
@@ -713,90 +730,7 @@
                 <div class="success-message" id="successMessage">
                     <i class="fas fa-check-circle"></i> <span data-lang-key="reserve_success_msg_part1">太棒了！您的专属故事已经准备好，我们将通过邮件发送给您。</span>
                 </div>
-                
-                <!-- 调试工具 -->
-                <div style="margin-top: 20px; padding: 10px; border: 1px dashed #ddd; display: block; position: relative; z-index: 5;" id="debugTools">
-                    <p style="font-size: 14px; margin-bottom: 10px; color: #666;" data-lang-key="debug_title">调试工具</p>
-                    <button type="button" id="directTestButton" style="background: #f1c40f; color: #333; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;" data-lang-key="debug_button">
-                        直接测试API连接
-                    </button>
-                    <div id="debugResult" style="margin-top: 10px; padding: 5px; background: #f9f9f9; font-size: 12px; max-height: 100px; overflow-y: auto;"></div>
-                </div>
             </form>
-            
-            <script>
-                // 显示调试工具 (按Ctrl+Shift+D显示)
-                document.addEventListener('keydown', function(e) {
-                    console.log('按键事件触发:', e.key, e.ctrlKey, e.shiftKey);
-                    if (e.ctrlKey && e.shiftKey && e.key === 'D') {
-                        console.log('触发调试工具显示');
-                        const debugTools = document.getElementById('debugTools');
-                        if (debugTools) {
-                            debugTools.style.display = debugTools.style.display === 'none' ? 'block' : 'none';
-                            console.log('调试工具显示状态:', debugTools.style.display);
-                        } else {
-                            console.error('未找到调试工具元素');
-                        }
-                    }
-                });
-                
-                // 直接测试API连接按钮
-                document.addEventListener('DOMContentLoaded', function() {
-                    const directTestButton = document.getElementById('directTestButton');
-                    const debugResult = document.getElementById('debugResult');
-                    const emailInput = document.querySelector('.email-input');
-                    
-                    if (directTestButton) {
-                        directTestButton.addEventListener('click', async function() {
-                            const currentLang = document.documentElement.lang || 'zh';
-                            debugResult.innerHTML = currentLang === 'zh' ? '测试中...' : 'Testing...';
-                            
-                            try {
-                                const email = emailInput ? emailInput.value : 'test@example.com';
-                                const response = await fetch('http://127.0.0.1:5000/subscribe', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify({ email: email })
-                                });
-                                
-                                const result = await response.json();
-                                debugResult.innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
-                            } catch (error) {
-                                debugResult.innerHTML = `Error: ${error.message}`;
-                            }
-                        });
-                    }
-                });
-            </script>
-        </div>
-    </section>
-
-    <!-- 隐私政策区 -->
-    <section class="features" id="privacy" style="background: #fff; padding: 5rem 2rem;">
-        <div class="container">
-            <h2 data-lang-key="privacy_title">隐私政策</h2>
-            <div style="text-align: left; max-width: 800px; margin: 0 auto; color: #333; line-height: 1.8;">
-                <p><strong data-lang-key="privacy_effective_date">生效日期：2025年6月18日</strong></p>
-                <br>
-                <p data-lang-key="privacy_p1">欢迎来到梦语童话！我们致力于保护您的隐私。本隐私政策解释了我们如何收集、使用、披露和保护您的信息。当您访问我们的网站时，即表示您同意本隐私政策中描述的做法。</p>
-                <br>
-                <h4 data-lang-key="privacy_h_info_collection" style="margin-bottom: 0.5rem; font-size: 1.2rem;">我们收集的信息</h4>
-                <p data-lang-key="privacy_p2">我们仅收集您通过我们的预约表单自愿提供给我们的信息，即您的电子邮件地址。我们不会收集任何其他个人身份信息。</p>
-                <br>
-                <h4 data-lang-key="privacy_h_info_use" style="margin-bottom: 0.5rem; font-size: 1.2rem;">信息的使用</h4>
-                <p data-lang-key="privacy_p3">我们使用您提供的电子邮件地址，仅用于向您发送关于我们产品发布、更新和相关新闻的通知。我们不会将您的电子邮件地址用于任何其他目的，也不会与任何第三方分享、出售或出租您的个人信息。</p>
-                <br>
-                <h4 data-lang-key="privacy_h_info_security" style="margin-bottom: 0.5rem; font-size: 1.2rem;">信息安全</h4>
-                <p data-lang-key="privacy_p4">我们采取合理的管理和技术措施来保护您的个人信息，防止丢失、盗窃、滥用以及未经授权的访问、披露、更改和销毁。</p>
-                <br>
-                <h4 data-lang-key="privacy_h_policy_changes" style="margin-bottom: 0.5rem; font-size: 1.2rem;">政策变更</h4>
-                <p data-lang-key="privacy_p5">我们可能会不时更新本隐私政策。任何变更都将在此页面上发布。我们鼓励您定期查看本隐私政策，以了解我们如何保护您的信息。</p>
-                <br>
-                <h4 data-lang-key="privacy_h_contact_us" style="margin-bottom: 0.5rem; font-size: 1.2rem;">联系我们</h4>
-                <p data-lang-key="privacy_p6">如果您对本隐私政策有任何疑问，请通过 <a href="mailto:jiuqianqi@gmail.com" style="color: #667eea;">jiuqianqi@gmail.com</a> 与我们联系。</p>
-            </div>
         </div>
     </section>
 
@@ -806,19 +740,16 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3 data-lang-key="footer_contact">联系我们</h3>
-                    <a href="mailto:jiuqianqi@gmail.com">
-                        <i class="fas fa-envelope"></i> jiuqianqi@gmail.com
+                    <a href="mailto:jiuqianqi.lz@gmail.com" class="footer-button">
+                        <i class="fas fa-envelope"></i> <span data-lang-key="footer_contact_email">通过邮件联系</span>
                     </a>
-                    <a href="tel:19196017851">
-                        <i class="fas fa-phone"></i> 19196017851
-                    </a>
+                    <p style="margin-top: 1rem; color: #bdc3c7; font-size: 0.9rem;">jiuqianqi.lz@gmail.com</p>
                 </div>
                 <div class="footer-section">
                     <h3 data-lang-key="footer_links">快速链接</h3>
                     <a href="#home" data-lang-key="footer_home">首页</a>
                     <a href="#features" data-lang-key="footer_features">功能特点</a>
-                    <a href="#about" data-lang-key="footer_about">关于我们</a>
-                    <a href="#privacy" data-lang-key="footer_privacy">隐私政策</a>
+                    <a href="privacy.html" class="footer-button" data-lang-key="footer_privacy" target="_blank">隐私政策</a>
                 </div>
                 <div class="footer-section">
                     <h3 data-lang-key="footer_follow">关注我们</h3>
@@ -886,6 +817,7 @@
                 footer_privacy: '隐私政策',
                 footer_follow: '关注我们',
                 footer_copyright: '&copy; 2025 梦语童话. 保留所有权利.',
+                footer_contact_email: '通过邮件联系',
                 privacy_title: '隐私政策',
                 privacy_effective_date: '生效日期：2025年6月18日',
                 privacy_p1: '欢迎来到梦语童话！我们致力于保护您的隐私。本隐私政策解释了我们如何收集、使用、披露和保护您的信息。当您访问我们的网站时，即表示您同意本隐私政策中描述的做法。',
@@ -942,6 +874,7 @@
                 footer_privacy: 'Privacy Policy',
                 footer_follow: 'Follow Us',
                 footer_copyright: '&copy; 2025 DreamTales. All rights reserved.',
+                footer_contact_email: 'Contact via Email',
                 privacy_title: 'Privacy Policy',
                 privacy_effective_date: 'Effective Date: June 18, 2025',
                 privacy_p1: 'Welcome to DreamTales! We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information. By visiting our website, you agree to the practices described in this policy.',

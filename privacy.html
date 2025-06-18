@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隐私政策 - 梦语童话</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: #f8faff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .back-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+        h2:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0.8rem auto 0;
+            border-radius: 2px;
+        }
+        .content {
+            text-align: left;
+            line-height: 1.8;
+        }
+        .content h4 {
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+         .lang-switcher {
+            background: rgba(0, 0, 0, 0.1);
+            color: #333;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .lang-switcher:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">梦语童话</div>
+        <div>
+            <button class="lang-switcher" id="lang-switcher">EN</button>
+            <a href="bedtime_story_landing.html" class="back-btn" data-lang-key="privacy_back_button">返回首页</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2 data-lang-key="privacy_title">隐私政策</h2>
+        <div class="content">
+            <p><strong data-lang-key="privacy_effective_date">生效日期：2025年6月18日</strong></p>
+            <br>
+            <p data-lang-key="privacy_p1">欢迎来到梦语童话！我们致力于保护您的隐私。本隐私政策解释了我们如何收集、使用、披露和保护您的信息。当您访问我们的网站时，即表示您同意本隐私政策中描述的做法。</p>
+            <br>
+            <h4 data-lang-key="privacy_h_info_collection">我们收集的信息</h4>
+            <p data-lang-key="privacy_p2">我们仅收集您通过我们的预约表单自愿提供给我们的信息，即您的电子邮件地址。我们不会收集任何其他个人身份信息。</p>
+            <br>
+            <h4 data-lang-key="privacy_h_info_use">信息的使用</h4>
+            <p data-lang-key="privacy_p3">我们使用您提供的电子邮件地址，仅用于向您发送关于我们产品发布、更新和相关新闻的通知。我们不会将您的电子邮件地址用于任何其他目的，也不会与任何第三方分享、出售或出租您的个人信息。</p>
+            <br>
+            <h4 data-lang-key="privacy_h_info_security">信息安全</h4>
+            <p data-lang-key="privacy_p4">我们采取合理的管理和技术措施来保护您的个人信息，防止丢失、盗窃、滥用以及未经授权的访问、披露、更改和销毁。</p>
+            <br>
+            <h4 data-lang-key="privacy_h_policy_changes">政策变更</h4>
+            <p data-lang-key="privacy_p5">我们可能会不时更新本隐私政策。任何变更都将在此页面上发布。我们鼓励您定期查看本隐私政策，以了解我们如何保护您的信息。</p>
+            <br>
+            <h4 data-lang-key="privacy_h_contact_us">联系我们</h4>
+            <p data-lang-key="privacy_p6">如果您对本隐私政策有任何疑问，请通过 <a href="mailto:jiuqianqi.lz@gmail.com" style="color: #667eea;">jiuqianqi.lz@gmail.com</a> 与我们联系。</p>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            zh: {
+                privacy_title: '隐私政策',
+                privacy_effective_date: '生效日期：2025年6月18日',
+                privacy_p1: '欢迎来到梦语童话！我们致力于保护您的隐私。本隐私政策解释了我们如何收集、使用、披露和保护您的信息。当您访问我们的网站时，即表示您同意本隐私政策中描述的做法。',
+                privacy_h_info_collection: '我们收集的信息',
+                privacy_p2: '我们仅收集您通过我们的预约表单自愿提供给我们的信息，即您的电子邮件地址。我们不会收集任何其他个人身份信息。',
+                privacy_h_info_use: '信息的使用',
+                privacy_p3: '我们使用您提供的电子邮件地址，仅用于向您发送关于我们产品发布、更新和相关新闻的通知。我们不会将您的电子邮件地址用于任何其他目的，也不会与任何第三方分享、出售或出租您的个人信息。',
+                privacy_h_info_security: '信息安全',
+                privacy_p4: '我们采取合理的管理和技术措施来保护您的个人信息，防止丢失、盗窃、滥用以及未经授权的访问、披露、更改和销毁。',
+                privacy_h_policy_changes: '政策变更',
+                privacy_p5: '我们可能会不时更新本隐私政策。任何变更都将在此页面上发布。我们鼓励您定期查看本隐私政策，以了解我们如何保护您的信息。',
+                privacy_h_contact_us: '联系我们',
+                privacy_p6: '如果您对本隐私政策有任何疑问，请通过 <a href="mailto:jiuqianqi.lz@gmail.com" style="color: #667eea;">jiuqianqi.lz@gmail.com</a> 与我们联系。',
+                privacy_back_button: '返回首页'
+            },
+            en: {
+                privacy_title: 'Privacy Policy',
+                privacy_effective_date: 'Effective Date: June 18, 2025',
+                privacy_p1: 'Welcome to DreamTales! We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information. By visiting our website, you agree to the practices described in this policy.',
+                privacy_h_info_collection: 'Information We Collect',
+                privacy_p2: 'We only collect information that you voluntarily provide to us through our reservation form, which is your email address. We do not collect any other personally identifiable information.',
+                privacy_h_info_use: 'Use of Your Information',
+                privacy_p3: 'We use the email address you provide solely to send you notifications about our product launch, updates, and related news. We will not use your email address for any other purpose, nor will we share, sell, or rent your personal information to any third parties.',
+                privacy_h_info_security: 'Security of Your Information',
+                privacy_p4: 'We take reasonable administrative and technical measures to protect your personal information from loss, theft, misuse, and unauthorized access, disclosure, alteration, and destruction.',
+                privacy_h_policy_changes: 'Changes to This Policy',
+                privacy_p5: 'We may update this Privacy Policy from time to time. Any changes will be posted on this page. We encourage you to review this Privacy Policy periodically to stay informed about how we are protecting your information.',
+                privacy_h_contact_us: 'Contact Us',
+                privacy_p6: 'If you have any questions about this Privacy Policy, please contact us at <a href="mailto:jiuqianqi.lz@gmail.com" style="color: #667eea;">jiuqianqi.lz@gmail.com</a>.',
+                privacy_back_button: 'Back to Home'
+            }
+        };
+
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-lang-key]').forEach(elem => {
+                const key = elem.getAttribute('data-lang-key');
+                if (translations[lang] && translations[lang][key]) {
+                    elem.innerHTML = translations[lang][key];
+                }
+            });
+            const switcher = document.getElementById('lang-switcher');
+            if(switcher) switcher.textContent = lang === 'zh' ? 'EN' : '中文';
+        }
+
+        function setupLanguageSwitcher() {
+            const switcher = document.getElementById('lang-switcher');
+            if(switcher) {
+                switcher.addEventListener('click', () => {
+                    const currentLang = document.documentElement.lang === 'zh' ? 'en' : 'zh';
+                    setLanguage(currentLang);
+                    localStorage.setItem('preferredLanguage', currentLang);
+                });
+            }
+            const preferredLanguage = localStorage.getItem('preferredLanguage') || 'zh';
+            setLanguage(preferredLanguage);
+        }
+
+        document.addEventListener('DOMContentLoaded', setupLanguageSwitcher);
+    </script>
+</body>
+</html> 
