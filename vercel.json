@@ -1,11 +1,13 @@
 {
   "version": 2,
-  "static": {
-    "directory": "."
-  },
   "routes": [
-    { "src": "/privacy", "dest": "/privacy.html" },
-    { "src": "/test", "dest": "/button_test.html" },
-    { "src": "/((?!.*\\.\\w+).*)", "dest": "/index.html" }
+    {
+      "src": "/privacy",
+      "dest": "privacy.html"
+    },
+    {
+      "src": "/test",
+      "dest": "button_test.html"
+    }
   ]
 } 
