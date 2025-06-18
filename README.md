@@ -1,87 +1,84 @@
-# 梦语童话 - AI儿童睡前故事平台
+# Soft Whispers - AI Bedtime Story Subscription Service
 
-梦语童话是一个利用AI技术为儿童创建个性化睡前故事的网站平台。通过收集用户偏好（如孩子年龄、故事主题和教育价值观），生成量身定制的故事内容，帮助孩子更好地入睡并在睡前学习。
+"Soft Whispers" is a tranquil and minimalistic landing page designed to capture user interest for an upcoming AI-powered bedtime story service. The project is built with a Python Flask backend and is optimized for seamless deployment on Vercel.
 
-## 功能特点
+## Core Features
 
-- **个性化故事定制**：根据孩子的年龄、兴趣和教育需求创建独特故事
-- **教育价值导向**：每个故事都融入特定的教育价值观，如勇气、友谊、好奇心等
-- **简单的用户界面**：直观的设计让家长轻松为孩子获取故事
-- **数据收集系统**：通过MySQL数据库存储用户信息和偏好设置
-- **响应式设计**：在各种设备上提供良好的用户体验
+- **Clean & Minimalist UI**: A calming, aesthetically pleasing interface built with HTML5, CSS3, and modern JavaScript.
+- **Email Subscription**: A robust email collection form that saves user emails to a MySQL database.
+- **Duplicate Prevention**: The backend logic prevents the same email from being registered twice.
+- **Scalable Backend**: A lightweight Flask server handles API requests.
+- **Automated Deployment**: Fully configured for continuous deployment on Vercel.
 
-## 技术栈
+## Technology Stack
 
-- 前端：HTML5, CSS3, JavaScript
-- 后端：PHP
-- 数据库：MySQL
-- 开发工具：Navicat (用于MySQL管理)
+- **Frontend**: HTML5, CSS3, JavaScript (no heavy frameworks)
+- **Backend**: Python (Flask)
+- **Database**: MySQL
+- **Deployment**: Vercel
 
-## 本地部署指南
+## Project Structure
 
-1. **准备环境**
-   - 安装PHP服务器环境（如XAMPP, WAMP, MAMP等）
-   - 确保MySQL服务已启动
-   - 使用Navicat或其他MySQL管理工具
+```
+.
+├── app.py                   # The main Flask application
+├── requirements.txt         # Python dependencies
+├── vercel.json              # Vercel deployment configuration
+├── db_setup.sql             # SQL script for initial database setup
+├── templates/
+│   └── bedtime_story_landing.html  # Main landing page HTML
+│   └── button_test.html            # A page for testing buttons
+│   └── privacy.html                # Privacy Policy page
+└── README.md                # This file
+```
 
-2. **设置数据库**
-   - 导入`db_setup.sql`文件创建必要的数据库和表
-   - 根据需要调整数据库连接参数（在`save_email.php`中）
+## Local Development Setup
 
-3. **部署文件**
-   - 将所有文件放置在PHP服务器的网站根目录下
-   - 确保文件权限设置正确
+To run this project on your local machine, follow these steps:
 
-4. **配置调整**
-   - 根据需要修改`save_email.php`中的数据库连接参数：
-     ```php
-     $dbHost = 'localhost';
-     $dbUser = 'root';  // 修改为您的数据库用户名
-     $dbPass = '';      // 修改为您的数据库密码
-     $dbName = 'dreamtales';  // 保持与SQL脚本中创建的数据库名一致
-     ```
+1.  **Clone the Repository**
+    ```bash
+    git clone <your-repo-url>
+    cd Soft-Whispers
+    ```
 
-5. **验证部署**
-   - 访问主页面验证网站是否正常运行
-   - 提交测试邮箱验证数据是否正确存入数据库
+2.  **Set Up the Database**
+    - Ensure you have a running MySQL server.
+    - Create a database named `dreamtales`.
+    - Import the `db_setup.sql` file to create the `user_subscriptions` table.
+      ```sql
+      -- Example using MySQL command line
+      mysql -u root -p dreamtales < db_setup.sql
+      ```
 
-## 文件结构
+3.  **Configure `app.py`**
+    - Open `app.py` and update the `DB_CONFIG` dictionary with your MySQL credentials:
+      ```python
+      DB_CONFIG = {
+          'host': 'localhost',
+          'user': 'your_mysql_user',
+          'password': 'your_mysql_password',
+          'database': 'dreamtales'
+      }
+      ```
 
-- `bedtime_story_landing.html` - 主页面
-- `login.html` - 登录页面
-- `api.js` - API接口函数
-- `save_email.php` - 处理邮箱提交并保存到数据库
-- `db_setup.sql` - 数据库初始化脚本
+4.  **Install Dependencies & Run**
+    - It's highly recommended to use a virtual environment.
+    ```bash
+    # Create and activate a virtual environment (optional but recommended)
+    python -m venv venv
+    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
 
-## 数据库结构
+    # Install the required packages
+    pip install -r requirements.txt
 
-主要表格:
-- `user_subscriptions` - 存储用户邮箱和偏好设置
-- `stories` - 存储生成的故事内容（如需要）
-- `statistics` - 跟踪用户活动和平台使用情况
+    # Run the Flask application
+    python app.py
+    ```
+    The application will be available at `http://127.0.0.1:5000`.
 
-## 使用说明
+## Vercel Deployment
 
-1. 访问网站首页
-2. 选择孩子年龄、故事主题和教育价值观
-3. 输入邮箱地址
-4. 点击"免费获取专属故事"按钮
-5. 用户信息将保存到数据库中，可通过Navicat查看和管理
+This project is ready for Vercel. Simply connect your GitHub repository to a new Vercel project. Vercel will automatically use `vercel.json` and `requirements.txt` to build and deploy the application.
 
-## 后续开发计划
-
-- 实现用户登录和管理界面
-- 添加故事生成API集成
-- 开发更高级的个性化算法
-- 增加音频播放功能
-- 添加父母反馈系统
-
-## 维护和支持
-
-- 定期检查数据库连接和表结构
-- 确保PHP版本兼容性
-- 根据用户反馈调整界面和功能
-
----
-
-欢迎提出改进建议或贡献代码，共同完善这个平台！ 
+**Important**: You will need to configure Vercel Environment Variables for your database connection details (`DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`) instead of hardcoding them in `app.py` for production. The code in `app.py` would need to be updated to read these environment variables. 

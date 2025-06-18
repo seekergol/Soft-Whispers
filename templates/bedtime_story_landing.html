@@ -1016,8 +1016,8 @@
                 console.log(`准备提交邮箱: ${email}`);
                 
                 try {
-                    console.log('发送请求到: http://127.0.0.1:5000/subscribe');
-                    const response = await fetch('http://127.0.0.1:5000/subscribe', {
+                    console.log('发送请求到: /subscribe');
+                    const response = await fetch('/subscribe', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email: email })
