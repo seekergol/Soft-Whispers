@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/api/submit",
-      "destination": "https://10gjiv9932240.vicp.fun"
+      "destination": "https://10gjiv9932240.vicp.fun/submit"
     }
   ],
   "routes": [
