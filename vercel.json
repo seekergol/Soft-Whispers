@@ -4,20 +4,18 @@
     {
       "source": "/api/submit",
       "destination": "https://10gjiv9932240.vicp.fun/submit"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/privacy",
-      "dest": "/privacy.html"
     },
     {
-      "src": "/test",
-      "dest": "/button_test.html"
+      "source": "/privacy",
+      "destination": "/privacy.html"
     },
     {
-      "src": "/",
-      "dest": "/index.html"
+      "source": "/test",
+      "destination": "/button_test.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 } 
