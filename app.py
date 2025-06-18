@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import mysql.connector
 import logging
@@ -31,13 +31,13 @@ DB_CONFIG = {
 def serve_landing_page():
     """提供前端HTML页面"""
     logger.info("请求首页")
-    return send_from_directory('.', 'bedtime_story_landing.html')
+    return render_template('bedtime_story_landing.html')
 
 @app.route('/privacy.html')
 def serve_privacy_page():
     """提供隐私政策页面"""
     logger.info("请求隐私政策页面")
-    return send_from_directory('.', 'privacy.html')
+    return render_template('privacy.html')
 
 @app.route('/subscribe', methods=['POST'])
 def subscribe():
@@ -115,7 +115,7 @@ def subscribe():
 def serve_test_page():
     """提供测试页面"""
     logger.info("请求测试页面")
-    return send_from_directory('.', 'button_test.html')
+    return render_template('button_test.html')
 
 if __name__ == '__main__':
     logger.info("启动Flask应用")
