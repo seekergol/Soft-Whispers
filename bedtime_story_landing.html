@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamTales - AI睡前故事</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 动画星星背景 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* 页眉 */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: #667eea;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        /* 语言切换按钮 */
+        .lang-switcher {
+            background: rgba(0, 0, 0, 0.1);
+            color: #333;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .lang-switcher:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* 主视觉区 */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgcGF0dGVyblRyYW5zZm9ybT0icm90YXRlKDQ1KSI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjMpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIi8+PC9zdmc+');
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 850px;
+            padding: 2rem;
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            margin-bottom: 1.2rem;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            max-width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .cta-button {
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .primary-cta {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .secondary-cta {
+            background: rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: bounce 0.6s ease;
+        }
+
+        .primary-cta:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .secondary-cta:hover {
+            background: rgba(0, 0, 0, 0.25);
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* 功能介绍区 */
+        .features {
+            padding: 5rem 2rem;
+            background: #f8faff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+            position: relative;
+        }
+        
+        .features h2:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0.8rem auto 0;
+            border-radius: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .feature-card:before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .feature-card:nth-child(2) {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .feature-card:nth-child(3) {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+        
+        .feature-link {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            padding: 0.6rem 1.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .feature-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 预约区 */
+        .reservation {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            text-align: center;
+            position: relative;
+        }
+        
+        .reservation:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCI+PGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMSIgZmlsbD0icmdiYSgwLDAsMCwwLjA1KSIvPjwvc3ZnPg==');
+            opacity: 0.8;
+        }
+
+        .reservation h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+            position: relative;
+            font-weight: 800;
+        }
+        
+        .reservation h2:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            margin: 0.8rem auto 0;
+            border-radius: 2px;
+        }
+
+        .reservation p {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            color: #444;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        .benefits-list {
+            margin: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.1rem;
+            color: #444;
+        }
+        
+        .benefit-item i {
+            color: #667eea;
+            font-size: 1rem;
+            background: rgba(102, 126, 234, 0.1);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .email-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 1rem;
+            color: #999;
+            z-index: 1;
+        }
+
+        .email-input {
+            width: 100%;
+            padding: 1.2rem 1rem 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .email-input:focus {
+            outline: none;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            margin: 0 auto;
+            max-width: 100%;
+            width: 300px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+            }
+        }
+
+        /* 底部 */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #ecf0f1;
+        }
+
+        .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            line-height: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .copyright {
+            border-top: 1px solid #34495e;
+            padding-top: 1rem;
+            opacity: 0.7;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .nav {
+                display: none;
+            }
+            
+            .email-form {
+                padding: 0 1rem;
+            }
+        }
+
+        /* 成功消息 */
+        .success-message {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            display: none;
+            animation: bounce 0.6s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- 动态星星背景 -->
+    <div class="stars" id="stars"></div>
+
+    <!-- 页眉 -->
+    <header class="header">
+        <div class="logo">梦语童话</div>
+        <nav class="nav">
+            <a href="#home" data-lang-key="nav_home">首页</a>
+            <a href="#reservation" data-lang-key="nav_reserve">立即预约</a>
+            <a href="#features" data-lang-key="nav_features">产品优势</a>
+            <a href="#contact" data-lang-key="nav_contact">联系我们</a>
+            <a href="#reservation" class="login-btn" data-lang-key="nav_free_trial">免费体验</a>
+        </nav>
+        <button class="lang-switcher" id="lang-switcher">EN</button>
+    </header>
+
+    <!-- 主视觉区 -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 data-lang-key="hero_title">让孩子沉浸在专属魔法故事中</h1>
+            <p data-lang-key="hero_subtitle">突破传统，用AI打造专属睡前故事，让每晚入睡成为孩子期待的奇妙旅程</p>
+            <div class="hero-buttons">
+                <a href="#reservation" class="cta-button primary-cta">
+                    <i class="fas fa-magic"></i> <span data-lang-key="hero_btn_free_trial">免费体验</span>
+                </a>
+                <a href="#reservation" class="cta-button secondary-cta">
+                    <i class="fas fa-play-circle"></i> <span data-lang-key="hero_btn_watch_demo">观看演示</span>
+                </a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">50,000+</span>
+                    <span class="stat-label" data-lang-key="hero_stat_children">快乐孩子</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label" data-lang-key="hero_stat_parents">家长推荐</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">15分钟</span>
+                    <span class="stat-label" data-lang-key="hero_stat_sleep">更快入睡</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 功能介绍区 -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 data-lang-key="features_title">为什么选择梦语童话？</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3 data-lang-key="feature_1_title">智能定制故事</h3>
+                    <p data-lang-key="feature_1_desc">尖端AI技术为每个孩子量身打造独一无二的睡前故事，根据年龄、兴趣和性格特点创造完美的睡前体验。</p>
+                    <a href="#reservation" class="feature-link" data-lang-key="feature_1_cta">立即体验</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 data-lang-key="feature_2_title">促进大脑发育</h3>
+                    <p data-lang-key="feature_2_desc">精心设计的故事情节不仅令人着迷，还能激发想象力，促进语言发展，培养解决问题的能力和情感智力。</p>
+                    <a href="#reservation" class="feature-link" data-lang-key="feature_2_cta">了解更多</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <h3 data-lang-key="feature_3_title">改善睡眠质量</h3>
+                    <p data-lang-key="feature_3_desc">科学证明的声音疗法和放松技术相结合，帮助孩子们更快入睡，减少夜间醒来，享受更深层次的休息。</p>
+                    <a href="#reservation" class="feature-link" data-lang-key="feature_3_cta">开始睡眠之旅</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 预约区 -->
+    <section class="reservation" id="reservation">
+        <div class="container">
+            <h2 data-lang-key="reserve_title">立即获取专属睡前故事</h2>
+            <p data-lang-key="reserve_subtitle">仅需提供邮箱，即刻体验AI智能定制的睡前故事，让孩子爱上睡前阅读</p>
+            <form class="email-form" id="reservationForm">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" class="email-input" placeholder="输入您的邮箱地址" required data-lang-key="reserve_placeholder" data-lang-prop="placeholder">
+                </div>
+                <button type="submit" class="submit-btn" id="submitButton">
+                    <i class="fas fa-magic"></i> <span data-lang-key="reserve_cta">免费获取专属故事</span>
+                </button>
+                <div class="benefits-list">
+                    <div class="benefit-item"><i class="fas fa-check"></i> <span data-lang-key="reserve_benefit_1">专为孩子定制的个性化故事</span></div>
+                    <div class="benefit-item"><i class="fas fa-check"></i> <span data-lang-key="reserve_benefit_2">融入寓教于乐的内容</span></div>
+                    <div class="benefit-item"><i class="fas fa-check"></i> <span data-lang-key="reserve_benefit_3">一键获取，立即收听</span></div>
+                </div>
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i> <span data-lang-key="reserve_success_msg_part1">太棒了！您的专属故事已经准备好，我们将通过邮件发送给您。</span>
+                </div>
+                
+                <!-- 调试工具 -->
+                <div style="margin-top: 20px; padding: 10px; border: 1px dashed #ddd; display: block; position: relative; z-index: 5;" id="debugTools">
+                    <p style="font-size: 14px; margin-bottom: 10px; color: #666;" data-lang-key="debug_title">调试工具</p>
+                    <button type="button" id="directTestButton" style="background: #f1c40f; color: #333; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;" data-lang-key="debug_button">
+                        直接测试API连接
+                    </button>
+                    <div id="debugResult" style="margin-top: 10px; padding: 5px; background: #f9f9f9; font-size: 12px; max-height: 100px; overflow-y: auto;"></div>
+                </div>
+            </form>
+            
+            <script>
+                // 显示调试工具 (按Ctrl+Shift+D显示)
+                document.addEventListener('keydown', function(e) {
+                    console.log('按键事件触发:', e.key, e.ctrlKey, e.shiftKey);
+                    if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+                        console.log('触发调试工具显示');
+                        const debugTools = document.getElementById('debugTools');
+                        if (debugTools) {
+                            debugTools.style.display = debugTools.style.display === 'none' ? 'block' : 'none';
+                            console.log('调试工具显示状态:', debugTools.style.display);
+                        } else {
+                            console.error('未找到调试工具元素');
+                        }
+                    }
+                });
+                
+                // 直接测试API连接按钮
+                document.addEventListener('DOMContentLoaded', function() {
+                    const directTestButton = document.getElementById('directTestButton');
+                    const debugResult = document.getElementById('debugResult');
+                    const emailInput = document.querySelector('.email-input');
+                    
+                    if (directTestButton) {
+                        directTestButton.addEventListener('click', async function() {
+                            const currentLang = document.documentElement.lang || 'zh';
+                            debugResult.innerHTML = currentLang === 'zh' ? '测试中...' : 'Testing...';
+                            
+                            try {
+                                const email = emailInput ? emailInput.value : 'test@example.com';
+                                const response = await fetch('http://127.0.0.1:5000/subscribe', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ email: email })
+                                });
+                                
+                                const result = await response.json();
+                                debugResult.innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+                            } catch (error) {
+                                debugResult.innerHTML = `Error: ${error.message}`;
+                            }
+                        });
+                    }
+                });
+            </script>
+        </div>
+    </section>
+
+    <!-- 隐私政策区 -->
+    <section class="features" id="privacy" style="background: #fff; padding: 5rem 2rem;">
+        <div class="container">
+            <h2 data-lang-key="privacy_title">隐私政策</h2>
+            <div style="text-align: left; max-width: 800px; margin: 0 auto; color: #333; line-height: 1.8;">
+                <p><strong data-lang-key="privacy_effective_date">生效日期：2025年6月18日</strong></p>
+                <br>
+                <p data-lang-key="privacy_p1">欢迎来到梦语童话！我们致力于保护您的隐私。本隐私政策解释了我们如何收集、使用、披露和保护您的信息。当您访问我们的网站时，即表示您同意本隐私政策中描述的做法。</p>
+                <br>
+                <h4 data-lang-key="privacy_h_info_collection" style="margin-bottom: 0.5rem; font-size: 1.2rem;">我们收集的信息</h4>
+                <p data-lang-key="privacy_p2">我们仅收集您通过我们的预约表单自愿提供给我们的信息，即您的电子邮件地址。我们不会收集任何其他个人身份信息。</p>
+                <br>
+                <h4 data-lang-key="privacy_h_info_use" style="margin-bottom: 0.5rem; font-size: 1.2rem;">信息的使用</h4>
+                <p data-lang-key="privacy_p3">我们使用您提供的电子邮件地址，仅用于向您发送关于我们产品发布、更新和相关新闻的通知。我们不会将您的电子邮件地址用于任何其他目的，也不会与任何第三方分享、出售或出租您的个人信息。</p>
+                <br>
+                <h4 data-lang-key="privacy_h_info_security" style="margin-bottom: 0.5rem; font-size: 1.2rem;">信息安全</h4>
+                <p data-lang-key="privacy_p4">我们采取合理的管理和技术措施来保护您的个人信息，防止丢失、盗窃、滥用以及未经授权的访问、披露、更改和销毁。</p>
+                <br>
+                <h4 data-lang-key="privacy_h_policy_changes" style="margin-bottom: 0.5rem; font-size: 1.2rem;">政策变更</h4>
+                <p data-lang-key="privacy_p5">我们可能会不时更新本隐私政策。任何变更都将在此页面上发布。我们鼓励您定期查看本隐私政策，以了解我们如何保护您的信息。</p>
+                <br>
+                <h4 data-lang-key="privacy_h_contact_us" style="margin-bottom: 0.5rem; font-size: 1.2rem;">联系我们</h4>
+                <p data-lang-key="privacy_p6">如果您对本隐私政策有任何疑问，请通过 <a href="mailto:jiuqianqi@gmail.com" style="color: #667eea;">jiuqianqi@gmail.com</a> 与我们联系。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部 -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 data-lang-key="footer_contact">联系我们</h3>
+                    <a href="mailto:jiuqianqi@gmail.com">
+                        <i class="fas fa-envelope"></i> jiuqianqi@gmail.com
+                    </a>
+                    <a href="tel:19196017851">
+                        <i class="fas fa-phone"></i> 19196017851
+                    </a>
+                </div>
+                <div class="footer-section">
+                    <h3 data-lang-key="footer_links">快速链接</h3>
+                    <a href="#home" data-lang-key="footer_home">首页</a>
+                    <a href="#features" data-lang-key="footer_features">功能特点</a>
+                    <a href="#about" data-lang-key="footer_about">关于我们</a>
+                    <a href="#privacy" data-lang-key="footer_privacy">隐私政策</a>
+                </div>
+                <div class="footer-section">
+                    <h3 data-lang-key="footer_follow">关注我们</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                        <a href="#"><i class="fab fa-bilibili"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p data-lang-key="footer_copyright">&copy; 2025 梦语童话. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 当整个页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM完全加载，开始初始化...');
+            initializeAll();
+        });
+
+        const translations = {
+            zh: {
+                // ... (Chinese translations)
+                nav_home: '首页',
+                nav_reserve: '立即预约',
+                nav_features: '产品优势',
+                nav_contact: '联系我们',
+                nav_free_trial: '免费体验',
+                hero_title: '让孩子沉浸在专属魔法故事中',
+                hero_subtitle: '突破传统，用AI打造专属睡前故事，让每晚入睡成为孩子期待的奇妙旅程',
+                hero_btn_free_trial: '免费体验',
+                hero_btn_watch_demo: '观看演示',
+                hero_stat_children: '快乐孩子',
+                hero_stat_parents: '家长推荐',
+                hero_stat_sleep: '更快入睡',
+                features_title: '为什么选择梦语童话？',
+                feature_1_title: '智能定制故事',
+                feature_1_desc: '尖端AI技术为每个孩子量身打造独一无二的睡前故事，根据年龄、兴趣和性格特点创造完美的睡前体验。',
+                feature_1_cta: '立即体验',
+                feature_2_title: '促进大脑发育',
+                feature_2_desc: '精心设计的故事情节不仅令人着迷，还能激发想象力，促进语言发展，培养解决问题的能力和情感智力。',
+                feature_2_cta: '了解更多',
+                feature_3_title: '改善睡眠质量',
+                feature_3_desc: '科学证明的声音疗法和放松技术相结合，帮助孩子们更快入睡，减少夜间醒来，享受更深层次的休息。',
+                feature_3_cta: '开始睡眠之旅',
+                reserve_title: '立即获取专属睡前故事',
+                reserve_subtitle: '仅需提供邮箱，即刻体验AI智能定制的睡前故事，让孩子爱上睡前阅读',
+                reserve_placeholder: '输入您的邮箱地址',
+                reserve_cta: '免费获取专属故事',
+                reserve_benefit_1: '专为孩子定制的个性化故事',
+                reserve_benefit_2: '融入寓教于乐的内容',
+                reserve_benefit_3: '一键获取，立即收听',
+                reserve_success_msg_part1: '太棒了！您的专属故事已经准备好，我们将通过邮件发送给您。',
+                debug_title: '调试工具',
+                debug_button: '直接测试API连接',
+                footer_contact: '联系我们',
+                footer_links: '快速链接',
+                footer_home: '首页',
+                footer_features: '功能特点',
+                footer_about: '关于我们',
+                footer_privacy: '隐私政策',
+                footer_follow: '关注我们',
+                footer_copyright: '&copy; 2025 梦语童话. 保留所有权利.',
+                privacy_title: '隐私政策',
+                privacy_effective_date: '生效日期：2025年6月18日',
+                privacy_p1: '欢迎来到梦语童话！我们致力于保护您的隐私。本隐私政策解释了我们如何收集、使用、披露和保护您的信息。当您访问我们的网站时，即表示您同意本隐私政策中描述的做法。',
+                privacy_h_info_collection: '我们收集的信息',
+                privacy_p2: '我们仅收集您通过我们的预约表单自愿提供给我们的信息，即您的电子邮件地址。我们不会收集任何其他个人身份信息。',
+                privacy_h_info_use: '信息的使用',
+                privacy_p3: '我们使用您提供的电子邮件地址，仅用于向您发送关于我们产品发布、更新和相关新闻的通知。我们不会将您的电子邮件地址用于任何其他目的，也不会与任何第三方分享、出售或出租您的个人信息。',
+                privacy_h_info_security: '信息安全',
+                privacy_p4: '我们采取合理的管理和技术措施来保护您的个人信息，防止丢失、盗窃、滥用以及未经授权的访问、披露、更改和销毁。',
+                privacy_h_policy_changes: '政策变更',
+                privacy_p5: '我们可能会不时更新本隐私政策。任何变更都将在此页面上发布。我们鼓励您定期查看本隐私政策，以了解我们如何保护您的信息。',
+                privacy_h_contact_us: '联系我们',
+                privacy_p6: '如果您对本隐私政策有任何疑问，请通过 <a href="mailto:jiuqianqi@gmail.com" style="color: #667eea;">jiuqianqi@gmail.com</a> 与我们联系。'
+            },
+            en: {
+                // ... (English translations)
+                nav_home: 'Home',
+                nav_reserve: 'Reserve Now',
+                nav_features: 'Features',
+                nav_contact: 'Contact Us',
+                nav_free_trial: 'Free Trial',
+                hero_title: 'Immerse Your Child in Magical Custom Stories',
+                hero_subtitle: 'Go beyond tradition with AI-crafted bedtime stories, making every night a wonderful journey your child looks forward to.',
+                hero_btn_free_trial: 'Free Trial',
+                hero_btn_watch_demo: 'Watch Demo',
+                hero_stat_children: 'Happy Children',
+                hero_stat_parents: 'Parents Recommend',
+                hero_stat_sleep: 'Faster Sleep',
+                features_title: 'Why Choose DreamTales?',
+                feature_1_title: 'Intelligent Custom Stories',
+                feature_1_desc: 'Cutting-edge AI tailors unique bedtime stories for each child, creating the perfect experience based on age, interests, and personality.',
+                feature_1_cta: 'Experience Now',
+                feature_2_title: 'Promotes Brain Development',
+                feature_2_desc: 'Captivating plots stimulate imagination, foster language skills, and develop problem-solving abilities and emotional intelligence.',
+                feature_2_cta: 'Learn More',
+                feature_3_title: 'Improves Sleep Quality',
+                feature_3_desc: 'Combines proven sound therapy and relaxation techniques to help children fall asleep faster, wake up less, and enjoy deeper rest.',
+                feature_3_cta: 'Start the Sleep Journey',
+                reserve_title: 'Get Your Custom Bedtime Story Now',
+                reserve_subtitle: 'Just provide your email to instantly experience an AI-customized bedtime story that will make your child love reading before bed.',
+                reserve_placeholder: 'Enter your email address',
+                reserve_cta: 'Get Your Free Story',
+                reserve_benefit_1: 'Personalized stories tailored for your child',
+                reserve_benefit_2: 'Integrates educational and fun content',
+                reserve_benefit_3: 'One-click access, listen immediately',
+                reserve_success_msg_part1: 'Great! Your custom story is ready and will be sent to you via email.',
+                debug_title: 'Debug Tools',
+                debug_button: 'Test API Connection Directly',
+                footer_contact: 'Contact Us',
+                footer_links: 'Quick Links',
+                footer_home: 'Home',
+                footer_features: 'Features',
+                footer_about: 'About Us',
+                footer_privacy: 'Privacy Policy',
+                footer_follow: 'Follow Us',
+                footer_copyright: '&copy; 2025 DreamTales. All rights reserved.',
+                privacy_title: 'Privacy Policy',
+                privacy_effective_date: 'Effective Date: June 18, 2025',
+                privacy_p1: 'Welcome to DreamTales! We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information. By visiting our website, you agree to the practices described in this policy.',
+                privacy_h_info_collection: 'Information We Collect',
+                privacy_p2: 'We only collect information that you voluntarily provide to us through our reservation form, which is your email address. We do not collect any other personally identifiable information.',
+                privacy_h_info_use: 'Use of Your Information',
+                privacy_p3: 'We use the email address you provide solely to send you notifications about our product launch, updates, and related news. We will not use your email address for any other purpose, nor will we share, sell, or rent your personal information to any third parties.',
+                privacy_h_info_security: 'Security of Your Information',
+                privacy_p4: 'We take reasonable administrative and technical measures to protect your personal information from loss, theft, misuse, and unauthorized access, disclosure, alteration, and destruction.',
+                privacy_h_policy_changes: 'Changes to This Policy',
+                privacy_p5: 'We may update this Privacy Policy from time to time. Any changes will be posted on this page. We encourage you to review this Privacy Policy periodically to stay informed about how we are protecting your information.',
+                privacy_h_contact_us: 'Contact Us',
+                privacy_p6: 'If you have any questions about this Privacy Policy, please contact us at <a href="mailto:jiuqianqi@gmail.com" style="color: #667eea;">jiuqianqi@gmail.com</a>.'
+            }
+        };
+
+        // 初始化所有功能
+        function initializeAll() {
+            // 创建动态星星
+            createStars();
+            
+            // 设置平滑滚动
+            setupSmoothScroll();
+            
+            // 设置表单提交事件
+            setupFormSubmission();
+            
+            // 设置页眉滚动效果
+            setupHeaderScroll();
+            
+            // 设置语言切换
+            setupLanguageSwitcher();
+            
+            console.log('页面初始化完成！所有功能已设置');
+        }
+
+        // 设置语言切换
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-lang-key]').forEach(elem => {
+                const key = elem.getAttribute('data-lang-key');
+                const prop = elem.getAttribute('data-lang-prop') || 'innerHTML';
+                if (translations[lang] && translations[lang][key]) {
+                    elem[prop] = translations[lang][key];
+                }
+            });
+            const switcher = document.getElementById('lang-switcher');
+            if(switcher) switcher.textContent = lang === 'zh' ? 'EN' : '中文';
+        }
+
+        function setupLanguageSwitcher() {
+            const switcher = document.getElementById('lang-switcher');
+            if(switcher) {
+                switcher.addEventListener('click', () => {
+                    const currentLang = document.documentElement.lang === 'zh' ? 'en' : 'zh';
+                    setLanguage(currentLang);
+                    localStorage.setItem('preferredLanguage', currentLang);
+                });
+            }
+            // 检查本地存储中是否有偏好语言
+            const preferredLanguage = localStorage.getItem('preferredLanguage');
+            if (preferredLanguage) {
+                setLanguage(preferredLanguage);
+            } else {
+                setLanguage('zh'); // 默认中文
+            }
+            console.log('语言切换器已设置');
+        }
+
+        // 创建动态星星
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 50;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+            console.log('星星背景已创建');
+        }
+
+        // 设置平滑滚动
+        function setupSmoothScroll() {
+            const links = document.querySelectorAll('a[href^="#"]');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            console.log('平滑滚动已设置');
+        }
+
+        // 设置表单提交事件
+        function setupFormSubmission() {
+            const form = document.getElementById('reservationForm');
+            const submitBtn = document.getElementById('submitButton');
+            const emailInput = form.querySelector('.email-input');
+            const successMessage = document.getElementById('successMessage');
+
+            if (!form || !submitBtn || !emailInput || !successMessage) {
+                console.error('表单关键元素缺失，无法绑定提交事件。');
+                alert('页面加载错误，请刷新重试。');
+                return;
+            }
+            
+            console.log('表单元素已找到，准备绑定点击事件。');
+
+            // 为按钮添加唯一的点击事件监听器
+            submitBtn.addEventListener('click', async function(e) {
+                e.preventDefault(); // 始终阻止表单的默认提交行为
+                console.log('"免费获取"按钮被点击！');
+                
+                // 禁用按钮，防止重复提交
+                this.disabled = true;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 处理中...';
+
+                const email = emailInput.value;
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    alert('请输入一个有效的邮箱地址。');
+                    this.disabled = false;
+                    this.innerHTML = '<i class="fas fa-magic"></i> 免费获取专属故事';
+                    return;
+                }
+
+                console.log(`准备提交邮箱: ${email}`);
+                
+                try {
+                    console.log('发送请求到: http://127.0.0.1:5000/subscribe');
+                    const response = await fetch('http://127.0.0.1:5000/subscribe', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email })
+                    });
+
+                    const result = await response.json();
+                    console.log('收到响应:', result);
+
+                    if (response.ok && result.success) {
+                        const currentLang = document.documentElement.lang || 'zh';
+                        const message = currentLang === 'en' 
+                            ? "Awesome! We've received your reservation and your exclusive story will be sent to your email shortly."
+                            : "太棒了！我们已收到您的预约，专属故事将很快通过邮件发送给您。";
+                        successMessage.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+                        successMessage.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
+                        form.reset();
+                    } else {
+                        successMessage.innerHTML = `<i class="fas fa-info-circle"></i> ${result.message || 'Operation failed, please try again later.'}`;
+                        successMessage.style.background = 'linear-gradient(135deg, #ff9a8b 0%, #ff6a88 100%)';
+                    }
+                    
+                    successMessage.style.display = 'block';
+                    setTimeout(() => { successMessage.style.display = 'none'; }, 6000);
+
+                } catch (error) {
+                    console.error('提交过程中发生网络或脚本错误:', error);
+                    successMessage.innerHTML = `<i class="fas fa-exclamation-circle"></i> 请求失败: ${error.message}`;
+                    successMessage.style.background = 'linear-gradient(135deg, #ff5252 0%, #ff1744 100%)';
+                    successMessage.style.display = 'block';
+                    setTimeout(() => { successMessage.style.display = 'none'; }, 6000);
+                } finally {
+                    // 无论成功或失败，都恢复按钮
+                    this.disabled = false;
+                    this.innerHTML = '<i class="fas fa-magic"></i> 免费获取专属故事';
+                }
+            });
+            
+            console.log('按钮点击事件绑定完成！');
+        }
+
+        // 设置页眉滚动效果
+        function setupHeaderScroll() {
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('.header');
+                if (window.scrollY > 100) {
+                    header.style.background = 'rgba(255, 255, 255, 0.98)';
+                } else {
+                    header.style.background = 'rgba(255, 255, 255, 0.95)';
+                }
+            });
+            console.log('页眉滚动效果已设置');
+        }
+    </script>
+</body>
+</html>
